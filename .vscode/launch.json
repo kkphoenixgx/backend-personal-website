@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-App<personal-website>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.kkphoenixgx.Application.App",
+      "projectName": "personal-website",
+      "console": "externalTerminal",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

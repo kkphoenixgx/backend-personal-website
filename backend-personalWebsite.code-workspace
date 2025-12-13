@@ -1,0 +1,45 @@
+{
+	"folders": [
+		{
+			"path": "./"
+		}
+	],
+
+	"extensions": {
+		"recommendations": [
+			// life candys:
+			"aaron-bond.better-comments",
+			"alefragnani.Bookmarks",
+			"christian-kohler.path-intellisense",
+			"dzhavat.bracket-pair-toggler",
+			"ms-vsliveshare.vsliveshare",
+			"PKief.material-icon-theme",
+			"usernamehw.errorlens",
+			
+			// theme:
+			"tinaciousdesign.theme-tinaciousdesign",
+			
+			// Workspace Essentials:
+			"redhat.vscode-yaml",
+			"redhat.vscode-xml",
+			"redhat.java",
+			"vscjava.vscode-maven",
+			"vscjava.vscode-java-test",
+			"vscjava.vscode-java-dependency",
+			"vscjava.vscode-java-debug",
+			"vmware.vscode-boot-dev-pack",
+			"EchoAPI.echoapi-for-vscode"
+		]
+	},
+
+	"settings": {
+		"workbench.colorTheme": "Tinacious Design (High Contrast)",
+		"workbench.iconTheme": "material-icon-theme",
+		"editor.fontFamily": "Fira Code",
+		"editor.fontWeight": "450",
+		"editor.fontSize": 14.5,
+		"editor.tabSize": 2,
+		"java.compile.nullAnalysis.mode": "disabled",
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}

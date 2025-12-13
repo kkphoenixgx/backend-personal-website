@@ -1,0 +1,34 @@
+[
+    {
+        "type": "File",
+        "name": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite/personal-website/src/main/java/com/kkphoenixgx/domain/model/Pages.java",
+        "parent_id": null,
+        "workspaceRoot": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite",
+        "workspacePath": "personal-website/src/main/java/com/kkphoenixgx/domain/model/Pages.java",
+        "id": "Eg6HcjpZrIKbWyC2"
+    },
+    {
+        "type": "File",
+        "name": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite/personal-website/src/main/java/com/kkphoenixgx/infrastructure/persistence/IO/IOPersistence.java",
+        "parent_id": null,
+        "workspaceRoot": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite",
+        "workspacePath": "personal-website/src/main/java/com/kkphoenixgx/infrastructure/persistence/IO/IOPersistence.java",
+        "id": "ni1yShKCsLOxcFbN"
+    },
+    {
+        "type": "File",
+        "name": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite/personal-website/src/main/java/com/kkphoenixgx/App.java",
+        "parent_id": null,
+        "workspaceRoot": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite",
+        "workspacePath": "personal-website/src/main/java/com/kkphoenixgx/App.java",
+        "id": "UtQbk06JhLCBxMSY"
+    },
+    {
+        "type": "File",
+        "name": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite/personal-website/src/main/java/com/kkphoenixgx/infrastructure/web/WebConfig.java",
+        "parent_id": null,
+        "workspaceRoot": "/home/kkphoenix/Documents/Workspace/backend-personalWebsite",
+        "workspacePath": "personal-website/src/main/java/com/kkphoenixgx/infrastructure/web/WebConfig.java",
+        "id": "okKFw6GvJPhZBDzq"
+    }
+]
