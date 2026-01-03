@@ -64,4 +64,4 @@ mvn spring-boot:run
 
 * [X] – Servir os paths corretamentes
 * [X] – White lable fix
-* [ ] - Home melhor | A home vai ser a do site mesmo
+* [X] - Home melhor | A home vai ser a do site mesmo

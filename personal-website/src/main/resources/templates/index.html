@@ -6,20 +6,56 @@
          
         <link rel="icon" type="image/png" href="./assets/icon.png">
         <title>kkphoenix</title>
+        <style>
+            body {
+                font-family: 'Courier New', Courier, monospace;
+                background-color: #121212;
+                color: #e0e0e0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+                text-shadow: 2px 2px 4px #000000;
+            }
+            .creative-list {
+                list-style: none;
+                padding: 0;
+                display: flex;
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .creative-list li a {
+                display: block;
+                padding: 20px 40px;
+                background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+                color: #fff;
+                text-decoration: none;
+                border-radius: 15px;
+                box-shadow:  5px 5px 10px #0b0b0b, -5px -5px 10px #292929;
+                transition: all 0.3s ease;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+            .creative-list li a:hover {
+                transform: translateY(-5px);
+                box-shadow:  8px 8px 15px #0b0b0b, -8px -8px 15px #292929;
+                color: #4caf50;
+            }
+        </style>
     </head>
     <body>
-        <p style=
-            "
-              width: 100vw; 
-              height: 100vh; 
-              display: flex; 
-              justify-content: center; 
-              align-items: center; 
-              text-align: center;
-            "
-        >
-            What are you doing here bro... Get out...
-        </p>
-        
+        <h1>Wellcome to my brain segments</h1>
+        <ul class="creative-list">
+            <li><a href="/RPG/">⚔️ RPG</a></li>
+            <li><a href="/Study/">📚 Study</a></li>
+            <li><a href="/Programing/">💻 Programming</a></li>
+        </ul>
     </body>
 </html>
