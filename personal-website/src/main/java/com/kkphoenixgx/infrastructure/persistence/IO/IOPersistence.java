@@ -11,7 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 // import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -45,23 +47,59 @@ public class IOPersistence implements PagesRepositoryPort {
 
   @Override
   public List<Pages> listStaticPages() {
-    List<Pages> pages = new ArrayList<Pages>();
     if (!hasStaticPagesFolder()) {
       logger.warn("Static pages folder does not exist or is not a directory: {}", staticLocationPath.toAbsolutePath());
-      return pages;
+      return new ArrayList<>();
     }
+    return getPagesInDirectory(staticLocationPath);
+  }
 
-    try (Stream<Path> walk = Files.walk(staticLocationPath)) {
-      walk.filter(Files::isRegularFile)
-          .filter(p -> p.toString().endsWith(".html"))
-          .forEach(filePath -> {
-            Path relativePath = staticLocationPath.relativize(filePath);
-            String path = "/" + relativePath.toString().replace(File.separatorChar, '/'); // Ensure Unix-like path
-            String title = getTitleFromPath(relativePath);
-            pages.add(new Pages(title, path));
-          });
+  private List<Pages> getPagesInDirectory(Path dir) {
+    List<Pages> pages = new ArrayList<>();
+    try (Stream<Path> stream = Files.list(dir)) {
+      List<Path> entries = stream.sorted(Comparator.comparing(Path::getFileName)).collect(Collectors.toList());
+
+      for (Path entry : entries) {
+        if (entry.getFileName().toString().equals(".git")) {
+          continue;
+        }
+
+        if (Files.isDirectory(entry)) {
+          List<Pages> children = getPagesInDirectory(entry);
+
+          String title;
+          String path;
+
+          Path indexFile = entry.resolve("index.html");
+          if (Files.exists(indexFile) && Files.isRegularFile(indexFile)) {
+            Path relativePath = staticLocationPath.relativize(indexFile);
+            title = getTitleFromPath(relativePath);
+            path = "/" + relativePath.toString().replace(File.separatorChar, '/');
+          } else {
+            Path relativePath = staticLocationPath.relativize(entry);
+            title = capitalizeFirstLetter(entry.getFileName().toString().replace("-", " "));
+            path = "/" + relativePath.toString().replace(File.separatorChar, '/');
+          }
+
+          Pages folderPage = new Pages(title, path);
+          folderPage.getItems().addAll(children);
+          pages.add(folderPage);
+        } else if (Files.isRegularFile(entry) && (entry.toString().toLowerCase().endsWith(".html")
+            || entry.toString().toLowerCase().endsWith(".jpg")
+            || entry.toString().toLowerCase().endsWith(".jpeg")
+            || entry.toString().toLowerCase().endsWith(".png")
+            || entry.toString().toLowerCase().endsWith(".gif"))) {
+          if (entry.getFileName().toString().equalsIgnoreCase("index.html") && !dir.equals(staticLocationPath)) {
+            continue;
+          }
+          Path relativePath = staticLocationPath.relativize(entry);
+          String title = getTitleFromPath(relativePath);
+          String path = "/" + relativePath.toString().replace(File.separatorChar, '/');
+          pages.add(new Pages(title, path));
+        }
+      }
     } catch (IOException e) {
-      logger.error("Error listing static files from {}: {}", staticLocationPath.toAbsolutePath(), e.getMessage(), e);
+      logger.error("Error listing files in directory {}: {}", dir, e.getMessage(), e);
     }
     return pages;
   }
@@ -76,8 +114,9 @@ public class IOPersistence implements PagesRepositoryPort {
       }
       return capitalizeFirstLetter(parent.getFileName().toString().replace("-", " "));
     }
-    // Remove .html extension and replace hyphens with spaces, then capitalize first letter
-    String title = fileName.substring(0, fileName.lastIndexOf(".html"));
+    // Remove file extension and replace hyphens with spaces, then capitalize first letter
+    int lastDot = fileName.lastIndexOf('.');
+    String title = (lastDot >= 0) ? fileName.substring(0, lastDot) : fileName;
     return capitalizeFirstLetter(title.replace("-", " "));
   }
 

@@ -1,11 +1,14 @@
 package com.kkphoenixgx.infrastructure.persistence.git;
 
+import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 // import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import com.kkphoenixgx.infrastructure.persistence.IO.IOPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,12 @@ public class GitPersistence {
 
   @Value("${git.repo.branch:main}")
   private String gitRepoBranch;
+
+  @Value("${git.username:}")
+  private String gitUsername;
+
+  @Value("${git.token:}")
+  private String gitToken;
 
   private final IOPersistence ioPersistence;
 
@@ -77,12 +86,17 @@ public class GitPersistence {
       }
     }
     try {
-      Git.cloneRepository()
+      CloneCommand cloneCommand = Git.cloneRepository()
         .setURI(gitRepoUrl)
         .setDirectory(localRepoDir)
         .setTimeout(30) // Set timeout to 30 seconds
-        .setProgressMonitor(new LoggingProgressMonitor())
-        .call();
+        .setProgressMonitor(new LoggingProgressMonitor());
+
+      if (gitUsername != null && !gitUsername.isEmpty() && gitToken != null && !gitToken.isEmpty()) {
+        cloneCommand.setCredentialsProvider(new UsernamePasswordCredentialsProvider(gitUsername, gitToken));
+      }
+
+      cloneCommand.call();
       logger.info("Repository cloned successfully.");
     } catch (GitAPIException e) {
       logger.error("Failed to clone repository {}: {}", gitRepoUrl, e.getMessage(), e);
@@ -92,10 +106,16 @@ public class GitPersistence {
   private void pullChanges(Repository repository) {
     logger.info("Local repository found. Performing pull operation in {}", repository.getDirectory().getParent());
     try (Git git = new Git(repository)) {
-      git.pull()
+      PullCommand pullCommand = git.pull()
         .setRebase(true) // Use rebase for a cleaner and often faster pull
         .setTimeout(30) // Set timeout to 30 seconds
-        .setProgressMonitor(new LoggingProgressMonitor()).call();
+        .setProgressMonitor(new LoggingProgressMonitor());
+
+      if (gitUsername != null && !gitUsername.isEmpty() && gitToken != null && !gitToken.isEmpty()) {
+        pullCommand.setCredentialsProvider(new UsernamePasswordCredentialsProvider(gitUsername, gitToken));
+      }
+
+      pullCommand.call();
       logger.info("Repository pull completed successfully.");
     } catch (GitAPIException e) {
       logger.error("Failed to pull repository {}: {}", gitRepoUrl, e.getMessage(), e);
