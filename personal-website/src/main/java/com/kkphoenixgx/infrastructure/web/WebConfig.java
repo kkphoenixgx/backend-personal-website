@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -17,6 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${app.static.pages}")
     private String staticLocationUri;
+
+    @Value("${app.test.cors:false}")
+    private boolean isTestCorsEnabled;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -39,5 +43,14 @@ public class WebConfig implements WebMvcConfigurer {
             logger.error("Error configuring static resource handler for {}: {}", staticLocationUri, e.getMessage(), e);
         }
 
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        if (isTestCorsEnabled) {
+            registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("*");
+        }
     }
 }
