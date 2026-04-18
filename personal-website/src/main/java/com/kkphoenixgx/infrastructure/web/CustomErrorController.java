@@ -28,12 +28,13 @@ public class CustomErrorController implements ErrorController {
                 logger.info("404 Error detected for URI: {}", uri);
 
                 if (uri != null) {
-                    if (uri.startsWith("/RPG")) {
-                        return "forward:/RPG/404.html";
-                    } else if (uri.startsWith("/Study")) {
-                        return "forward:/Study/404.html";
-                    } else if (uri.startsWith("/Programing")) {
-                        return "forward:/Programing/404.html";
+                    String lowerUri = uri.toLowerCase();
+                    if (lowerUri.startsWith("/rpg")) {
+                        return "redirect:/RPG/404.html";
+                    } else if (lowerUri.startsWith("/study")) {
+                        return "redirect:/Study/404.html";
+                    } else if (lowerUri.startsWith("/programing")) {
+                        return "redirect:/Programing/404.html";
                     }
                 }
             }

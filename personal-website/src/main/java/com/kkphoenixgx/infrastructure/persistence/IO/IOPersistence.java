@@ -30,6 +30,10 @@ public class IOPersistence implements PagesRepositoryPort {
   public IOPersistence(@Value("${app.static.pages}") Resource staticLocationResource) {
     try {
       this.staticLocationPath = staticLocationResource.getFile().toPath().normalize();
+      if (!Files.exists(this.staticLocationPath)) {
+        logger.warn("Static location does not exist. Creating directory: {}", this.staticLocationPath);
+        Files.createDirectories(this.staticLocationPath);
+      }
       logger.info("Static content location resolved to: {}", this.staticLocationPath.toAbsolutePath());
     } catch (Exception e) {
       logger.error("Error resolving static location URI: {}", staticLocationResource, e);

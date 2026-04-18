@@ -4,7 +4,7 @@
 
     <groupId>com.kkphoenixgx</groupId>
     <artifactId>personal-website</artifactId>
-    <version>1.5.2</version>
+    <version>1.6.0</version>
     <packaging>jar</packaging>
 
     <name>kkphoenix personal website backend</name>
